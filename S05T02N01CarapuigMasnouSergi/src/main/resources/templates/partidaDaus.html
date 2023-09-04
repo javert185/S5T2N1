@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ca" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Partida de Daus</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+          crossorigin="anonymous"/>
+</head>
+<body>
+    <div class="container">
+        <h3>Partida de Daus</h3>
+        
+        <form th:action="@{/players/savePartida}" th:object="${partida}" method="POST">
+        
+            <!-- Botó per llençar el primer dau -->
+            <button type="button" class="btn btn-primary" onclick="llencarDau(1)" id="Button1">Llençar Dau 1</button>
+            
+            <!-- Mostra el resultat del primer dau aquí -->
+            <p id="resultatDau1"></p>
+            
+            <!-- Botó per llençar el segon dau -->
+            <button type="button" class="btn btn-primary" onclick="llencarDau(2)" id="Button2">Llençar Dau 2</button>
+            
+            <!-- Mostra el resultat del segon dau aquí -->
+            <p id="resultatDau2"></p>
+            
+            <!-- Mostra el missatge de guanyar o perdre aquí -->
+            <div id="missatge"></div>
+            
+            <input type="hidden" th:field="*{jugadorId}"/>
+            <input type="hidden" th:field="*{valorDau1}" />
+            <input type="hidden" th:field="*{valorDau2}" />
+            <input type="hidden" th:field="*{resultat}" />
+            <input type="hidden" th:field="*{guanyada}" />
+            
+            <button type="submit" class="btn btn-primary">Tornar</button>
+        </form>
+    </div>
+    
+    <!-- Include JavaScript -->
+    <script>
+    
+    
+        
+    function llencarDau(numDau) {
+    
+    	var jugadorenID = [[${jugadorIdObtain}]];
+    	  
+        var resultat = Math.floor(Math.random() * 6) + 1;
+
+        var idResultat = "resultatDau" + numDau;
+        document.getElementById(idResultat).innerHTML = "Resultat del Dau " + numDau + ": " + resultat;
+                    
+        var resultatDau1 = parseInt(document.getElementById("resultatDau1").textContent.split(": ")[1]);
+        var resultatDau2 = parseInt(document.getElementById("resultatDau2").textContent.split(": ")[1]);
+        
+        document.getElementById("Button" + numDau).disabled = true;
+        
+        var button1 = document.getElementById("Button1");
+        var button2 = document.getElementById("Button2");
+
+        if (button1.disabled && button2.disabled) {
+            var sumaDauby2 = resultatDau1 + resultatDau2;
+            
+            var missatgeElement = document.getElementById("missatge");
+            var guanyada = false;
+
+            if (sumaDauby2 === 7) {
+                missatgeElement.innerHTML = "Has guanyat! :)";
+                guanyada = true;
+            } else {
+                missatgeElement.innerHTML = "Has perdut! :(";
+            }
+
+            // Populate hidden form fields with data
+            //
+            document.querySelector('input[name="jugadorId"]').value = jugadorenID;
+            document.querySelector('input[name="valorDau1"]').value = resultatDau1;
+            document.querySelector('input[name="valorDau2"]').value = resultatDau2;
+            document.querySelector('input[name="resultat"]').value = sumaDauby2;
+            document.querySelector('input[name="guanyada"]').value = guanyada;
+            
+            // Log the values being added
+        	console.log("Resultat Dau 1: " + resultatDau1);
+       	 	console.log("Resultat Dau 2: " + resultatDau2);
+        	console.log("Resultat: " + resultat);
+        	console.log("Guanyada: " + guanyada);
+       }
+    }
+</script>
+
+</body>
+</html>
+     

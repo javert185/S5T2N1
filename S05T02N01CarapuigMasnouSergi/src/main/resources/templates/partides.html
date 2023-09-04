@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Llistat de Partides del Jugador</title>
+   
+    <link rel="stylesheet"
+          type="text/css"
+          href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+          crossorigin="anonymous" />
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+            border: 2px solid #333;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #ddd;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 th:text="'Jugador: ' + ${jugadorNom}"></h1>
+	<h2>Llista de partides</h2>
+	<h3>Percentatge d'èxit: <span th:text="${percentatge}"></span></h3>
+	
+
+
+    <hr/>
+    <a th:href="@{'/players/' + ${jugadorIdObtain} + '/jugar'}" class="btn btn-success">Jugar</a>
+    <br/><br/>
+    <table id="partidesTable">
+        <thead>
+            <tr>
+                <th>Número de Partida</th>
+                <th>Valor Dau 1</th>
+                <th>Valor Dau 2</th>
+                <th>Resultat</th>
+                <th>Guanyada</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="partida : ${partides}">
+                <td th:text="${partida.id}"></td>
+                <td th:text="${partida.valorDau1}"></td>
+                <td th:text="${partida.valorDau2}"></td>
+                <td th:text="${partida.resultat}"></td>
+                <td th:text="${partida.guanyada}"></td>
+            </tr>
+        </tbody>
+        <a th:href="@{'/players/update/' + ${jugadorIdObtain}}" class="btn btn-info">Modificar el Nom</a>
+        <a th:href="@{'/players/' + ${jugadorIdObtain} + '/deleteGames'}" class="btn btn-danger">Esborrar totes les partides</a>
+        <a th:href="@{'/players/getAll'}" class="btn btn-info">Canviar de Jugador</a>
+        <a th:href="@{'/players/ranking'}" class="btn btn-info">VeureRankings</a>
+    </table>
+</body>
+</html>

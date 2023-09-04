@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Afegir Jugador</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+          crossorigin="anonymous"/>
+</head>
+<body>
+<div class="container">
+    <h3>Afegir Nou Jugador</h3>
+    <hr/>
+    <form th:action="@{/players/save}" th:object="${jugador}" method="POST">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group">
+            <label for="nom">Nom:</label>
+            <input type="text" th:field="*{nom}" class="form-control" id="nom" placeholder="Introdueix el nom"/>
+        </div>
+        <div class="form-group">
+            <label for="dataDeRegistre">Data de Registre:</label>
+            <input type="date" th:field="*{dataDeRegistre}" class="form-control" id="dataDeRegistre" readonly/>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+    <hr/>
+    <a th:href="@{'/players/' + ${jugador.id} + '/games'}">Tornar al menu del jugador</a>
+</div>
+</body>
+</html>
+
